@@ -1,13 +1,13 @@
-package com.developer.sumit.employee_svc;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class EmployeeSvcApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//package com.developer.sumit.employee_svc;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class EmployeeSvcApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}

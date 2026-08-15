@@ -6,6 +6,7 @@ import com.developer.sumit.employee_svc.dto.EmployeeDto;
 import com.developer.sumit.employee_svc.entity.Employee;
 import com.developer.sumit.employee_svc.mapper.EmployeeMapper;
 import com.developer.sumit.employee_svc.repository.EmployeeRepository;
+import com.developer.sumit.employee_svc.service.APIClient;
 import com.developer.sumit.employee_svc.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
 //    private RestTemplate restTemplate;
-    private WebClient webClient;
+//    private WebClient webClient;
+    private APIClient apiclient;
+    //APIClient is nothing but fignclient
+
     @Override
     public EmployeeDto saveEmp(EmployeeDto employeeDto) {
 
@@ -41,10 +45,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 //        DepartmentDto departmentDTo = responseEntity.getBody();
 
-        DepartmentDto departmentDTo = webClient.get().uri("http://localhost:8080/api/departments/"+employee.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(DepartmentDto.class)
-                .block();
+//        DepartmentDto departmentDTo = webClient.get().uri("http://localhost:8080/api/departments/"+employee.getDepartmentCode())
+//                .retrieve()
+//                .bodyToMono(DepartmentDto.class)
+//                .block();
+
+        DepartmentDto departmentDTo = apiclient.getDepartment(employee.getDepartmentCode());
+
 
         EmployeeDto getEmplDto = EmployeeMapper.mapToEmployeeDto(employee);
 
