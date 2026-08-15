@@ -7,6 +7,8 @@ import com.developer.sumit.employee_svc.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -26,10 +28,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         EmployeeDto savedEmplDto = new EmployeeDto(
                 SavedEmpl.getId(),
-                employeeDto.getEmail(),
-                employeeDto.getFirstName(),
-                employeeDto.getLastName());
+                SavedEmpl.getEmail(),
+                SavedEmpl.getFirstName(),
+                SavedEmpl.getLastName());
 
         return savedEmplDto;
+    }
+
+    @Override
+    public EmployeeDto getEmployeeById(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).get();
+        EmployeeDto getEmplDto = new EmployeeDto(
+                employee.getId(),
+                employee.getEmail(),
+                employee.getFirstName(),
+                employee.getLastName());
+
+        return getEmplDto;
     }
 }
