@@ -1,5 +1,6 @@
 package com.developer.sumit.employee_svc.controller;
 
+import com.developer.sumit.employee_svc.dto.APIResponseDto;
 import com.developer.sumit.employee_svc.dto.EmployeeDto;
 import com.developer.sumit.employee_svc.service.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/{Employee-id}")
-    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable("Employee-id") Long id){
-        EmployeeDto savedEmployee = employeeService.getEmployeeById(id);
-        return new ResponseEntity(savedEmployee, HttpStatus.OK);
+    public ResponseEntity<APIResponseDto> getEmployee(@PathVariable("Employee-id") Long id){
+        APIResponseDto apiResponseDto = employeeService.getEmployeeById(id);
+        return new ResponseEntity(apiResponseDto, HttpStatus.OK);
     }
 }
