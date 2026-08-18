@@ -3,6 +3,7 @@ package com.developer.sumit.employee_svc.service.impl;
 import com.developer.sumit.employee_svc.dto.APIResponseDto;
 import com.developer.sumit.employee_svc.dto.DepartmentDto;
 import com.developer.sumit.employee_svc.dto.EmployeeDto;
+import com.developer.sumit.employee_svc.dto.OrganizationDto;
 import com.developer.sumit.employee_svc.entity.Employee;
 import com.developer.sumit.employee_svc.mapper.EmployeeMapper;
 import com.developer.sumit.employee_svc.repository.EmployeeRepository;
@@ -59,12 +60,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 //        DepartmentDto departmentDTo = apiclient.getDepartment(employee.getDepartmentCode());
 
+        //Calling Organoization service through employee service:
+        OrganizationDto organizationDTo = webClient.get().uri("http://localhost:8083/api/organizations/"+employee.getOrganizationCode())
+                .retrieve()
+                .bodyToMono(OrganizationDto.class)
+                .block();
 
         EmployeeDto getEmplDto = EmployeeMapper.mapToEmployeeDto(employee);
 
         APIResponseDto apiResponseDto = new APIResponseDto();
         apiResponseDto.setEmployee(getEmplDto);
         apiResponseDto.setDepartment(departmentDTo);
+        apiResponseDto.setOrganizationDto(organizationDTo);
         return apiResponseDto;
     }
 
