@@ -7,6 +7,13 @@ function App() {
       <header className="App-header">
         <h1>Hello world</h1>
         
+import EmployeeComponent from './component/EmployeeComponent';
+
+function App() {
+  return (
+    <div className="container">
+      <header className="App-header">
+        <EmployeeComponent />
       </header>
     </div>
   );
