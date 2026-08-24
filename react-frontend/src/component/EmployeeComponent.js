@@ -7,7 +7,9 @@ class EmployeeComponent extends Component {
         this.state = {
             employees: {},
             department: {},
-            organization: {}
+            organization: {},
+            loading: true,
+            error: ''
         }
     }
 
@@ -16,12 +18,26 @@ class EmployeeComponent extends Component {
             this.setState({
                 employees: response.data.employee,
                 department: response.data.department,
-                organization: response.data.organization
+                organization: response.data.organization,
+                loading: false
+            });
+        }).catch(() => {
+            this.setState({
+                loading: false,
+                error: 'Unable to load employee details.'
             });
         });
     }
 
  render() {
+        if (this.state.loading) {
+            return <p className="text-center mt-4">Loading employee details...</p>;
+        }
+
+        if (this.state.error) {
+            return <p className="text-center mt-4 text-danger">{this.state.error}</p>;
+        }
+
         return (
             <div> <br /><br />
                 <div className='card col-md-6 offset-md-3'>

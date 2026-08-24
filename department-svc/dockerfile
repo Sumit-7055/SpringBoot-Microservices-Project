@@ -1,0 +1,5 @@
+FROM eclipse-temurin:17
+LABEL mentainer="https://sumit-7055.github.io/"
+WORKDIR /department-svc
+COPY target/department-svc-0.0.1-SNAPSHOT.jar /department-svc/springboot-docker.jar
+ENTRYPOINT ["java", "-jar", "springboot-docker.jar"]
