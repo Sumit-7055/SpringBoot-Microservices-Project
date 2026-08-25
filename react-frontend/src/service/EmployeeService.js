@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-const EMPLOYEE_SERVICE_BASE_URL = "http://localhost:9191/api/employees";
-
-const EMPLOYEE_ID = 1;
+const EMPLOYEE_SERVICE_BASE_URL = "/api/employees";
 
 class EmployeeService {
-    getEmployees() {
-       return axios.get(EMPLOYEE_SERVICE_BASE_URL + '/' + EMPLOYEE_ID);
+    getEmployee(employeeId) {
+       return axios.get(EMPLOYEE_SERVICE_BASE_URL + '/' + employeeId);
     }
 }
 
-export default new EmployeeService
+export default new EmployeeService();

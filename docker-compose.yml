@@ -135,6 +135,14 @@ services:
     depends_on:
       - service-registry
 
+  react-frontend:
+    build: ./react-frontend
+    container_name: react-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway
+
 volumes:
   department-data:
   employee-data:
