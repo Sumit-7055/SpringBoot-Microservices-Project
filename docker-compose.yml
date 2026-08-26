@@ -1,0 +1,149 @@
+services:
+  department-mysql:
+    image: mysql:8.0
+    container_name: department-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Sumit@SQL
+      MYSQL_DATABASE: department_db
+    volumes:
+      - department-data:/var/lib/mysql
+
+  department-svc:
+    build:
+      context: ./department-svc
+      dockerfile: dockerfile
+    container_name: department-svc
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://department-mysql:3306/department_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Sumit@SQL
+      DB_HOST: department-mysql
+      DB_NAME: department_db
+      DB_USERNAME: root
+      DB_PASSWORD: Sumit@SQL
+      RABBITMQ_HOST: rabbitmq
+      EUREKA_HOST: service-registry
+      CONFIG_SERVER_HOST: config-server
+    depends_on:
+      - department-mysql
+      - rabbitmq
+      - service-registry
+      - config-server
+
+  employee-mysql:
+    image: mysql:8.0
+    container_name: employee-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Sumit@SQL
+      MYSQL_DATABASE: employee_db
+    volumes:
+      - employee-data:/var/lib/mysql
+
+  employee-svc:
+    build:
+      context: ./employee-svc
+      dockerfile: dockerfile
+    container_name: employee-svc
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://employee-mysql:3306/employee_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Sumit@SQL
+      DB_HOST: employee-mysql
+      DB_NAME: employee_db
+      DB_USERNAME: root
+      DB_PASSWORD: Sumit@SQL
+      RABBITMQ_HOST: rabbitmq
+      EUREKA_HOST: service-registry
+      CONFIG_SERVER_HOST: config-server
+    depends_on:
+      - employee-mysql
+      - rabbitmq
+      - service-registry
+      - config-server
+
+  organization-mysql:
+    image: mysql:8.0
+    container_name: organization-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Sumit@SQL
+      MYSQL_DATABASE: organization_db
+    volumes:
+      - organization-data:/var/lib/mysql
+
+  organization-service:
+    build:
+      context: ./organization-service
+      dockerfile: dockerfile
+    container_name: organization-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://organization-mysql:3306/organization_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Sumit@SQL
+      DB_HOST: organization-mysql
+      DB_NAME: organization_db
+      DB_USERNAME: root
+      DB_PASSWORD: Sumit@SQL
+      RABBITMQ_HOST: rabbitmq
+      EUREKA_HOST: service-registry
+      CONFIG_SERVER_HOST: config-server
+    depends_on:
+      - organization-mysql
+      - rabbitmq
+      - service-registry
+      - config-server
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  service-registry:
+    build:
+      context: ./service-registry
+      dockerfile: dockerfile
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: dockerfile
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - service-registry
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: dockerfile
+    container_name: api-gateway
+    ports:
+      - "9191:9191"
+    environment:
+      EUREKA_HOST: service-registry
+    depends_on:
+      - service-registry
+
+  react-frontend:
+    build: ./react-frontend
+    container_name: react-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api-gateway
+
+volumes:
+  department-data:
+  employee-data:
+  organization-data:
